@@ -40,8 +40,11 @@ public class VacationServiceImpl implements VacationService {
     public boolean isVacation(LocalDate date) {
         if (date.getDayOfWeek() == DayOfWeek.SUNDAY || date.getDayOfWeek() == DayOfWeek.SATURDAY) {
             return true;
-        } else if (holidays.contains(date)) {
-            return true;
+        }
+        for (LocalDate holiday: holidays) {
+            if (holiday.getDayOfMonth() == date.getDayOfMonth() && holiday.getMonth() == date.getMonth()) {
+                return true;
+            }
         }
         return false;
     }
