@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class CalculateServiceTest {
@@ -55,9 +56,10 @@ class CalculateServiceTest {
         double averageSalary = -1000.0;
         int days = 10;
 
-        VacationPayDto result = calculateService.calculate(averageSalary, days);
 
-        assertEquals(0.0, result.getVacationPay());
+        assertThrows(IllegalArgumentException.class, () -> {
+            calculateService.calculate(averageSalary, days);
+        });
     }
 
     @Test
@@ -65,8 +67,8 @@ class CalculateServiceTest {
         double averageSalary = 29300.0;
         int days = -10;
 
-        VacationPayDto result = calculateService.calculate(averageSalary, days);
-
-        assertEquals(0.0, result.getVacationPay());
+        assertThrows(IllegalArgumentException.class, () -> {
+            calculateService.calculate(averageSalary, days);
+        });
     }
 }

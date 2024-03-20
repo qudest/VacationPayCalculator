@@ -15,15 +15,15 @@ public class CalculateServiceImpl implements CalculateService {
 
     @Override
     public VacationPayDto calculate(double averageSalary, int days) {
-        if (averageSalary < 0 || days < 0) return new VacationPayDto(0d);
+        if (averageSalary < 0 || days < 0) {
+            throw new IllegalArgumentException();
+        }
         return new VacationPayDto(averageSalary / 29.3d * days);
     }
 
     @Override
     public VacationPayDto calculate(double averageSalary, int days, LocalDate date) {
-        if (averageSalary < 0 || days < 0) return new VacationPayDto(0d);
-        double salaryPerDay = averageSalary / 29.3d;
-        return new VacationPayDto(salaryPerDay * calculateWorkDays(date, days));
+        return calculate(averageSalary, calculateWorkDays(date, days));
     }
 
     private int calculateWorkDays(LocalDate date, int countOfDaysAfterDate) {
